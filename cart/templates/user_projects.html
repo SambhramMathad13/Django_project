@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Open Sans", sans-serif
+        }
+    </style>
+</head>
+
+<body class="w3-theme-l5">
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">About:</label>
+                            <textarea class="form-control" id="about" name="bio" required minlength="10" maxlength="350">{{n.bio}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-" class="col-form-label">College:</label>
+                            <input type="text" class="form-control" name="c" id="College" value="{{n.college}}" required minlength="5" maxlength="100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-n" class="col-form-label">Sem and Branch:</label>
+                            <input type="text" class="form-control" name="sem" id="sem" value="{{n.sem}}" required minlength="3" maxlength="35">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-na" class="col-form-label">Link:</label>
+                            <input type="text" class="form-control" name="link" id="link" value="{{n.github}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-nam" class="col-form-label">Image:</label>
+                            <input type="file" value="user_imgs/user.png" class="form-control" name="photo">
+                        </div>
+                        <p class="alert alert-info">Your photo will be set to default if you don't choose one.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+        <a class="navbar-brand" href="/home/{{request.user}}">ProjectCart</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home/{{request.user}}">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user_projects/{{request.user}}">Your Projects<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/add/{{request.user}}">Add<span class="sr-only">(current)</span></a>
+                </li>
+
+
+                <div class="dropdown ml-3">
+                    <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{request.user}}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </div>
+
+            </ul>
+
+
+
+            <form class="form-inline" action="/search/" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="@Username , #projects"
+                    aria-label="Search" required>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+        </div>
+    </nav>
+
+
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{ message}}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+
+
+    <!-- <div class="container py-5"> -->
+
+    <header class="text-center my-5">
+        {% if projs|length == 0 %}
+        <header class="text-center mt-3">
+            <h3 class="display-5 "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>Your project list is empty...<i
+                    class="fa-solid fa-play fa-2xs ms-2"></i></h3>
+        </header>
+        {% else %}
+        <header class="text-center mt-3">
+            <h3 class="display-5 "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>Your projects<i
+                    class="fa-solid fa-play fa-2xs ms-2"></i></h3>
+        </header>
+        {% endif %}
+    </header>
+
+
+
+    <!-- Page Container -->
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:50px">
+        <!-- The Grid -->
+        <div class="w3-row">
+            <!-- Left Column -->
+            <div class="w3-col m3">
+                <!-- Profile -->
+                <div class="w3-card w3-round w3-white">
+                    <div class="w3-container mt-3">
+                        <p class="w3-center mt-4"><img src="{{n.photo.url}}" alt="Avatar" class="w3-circle"
+                                style="width:70px; height: 70px;"></p>
+                        <h4 class="w3-center h3">{{request.user}}</h4>
+                        <hr>
+                        <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-dark"></i>{{n.bio}}</p>
+                        <p><i class="fa-solid fa-graduation-cap w3-margin-right w3-text-dark"></i> {{n.college}}</p>
+                        <p><i class="fa-regular fa-calendar w3-margin-right w3-text-dark"></i> {{n.sem}}</p>
+                        <p></i>
+                            <i class="fa-solid fa-link  w3-margin-right"></i>
+
+                            <a href="{{projs.link}}" class="text-decoration-none">{{n.github}}</a>
+                        </p>
+
+                        <!-- <button class="btn btn-success">Edit</button> -->
+                        <div class="text-center">
+
+
+                            <button type="button" class="w3-button w3-green w3-margin-bottom rounded-lg"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal"><i
+                                    class="fa-solid fa-user-pen"></i> Edit</button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+             
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Middle Column -->
+            {% for p in projs %}
+            <div class="w3-col m3">
+                <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+
+
+                    <h3>{{p.pname}}</h3>
+                    <div>
+                        <p class=" w3-opacity">{{p.date}}</p>
+                    </div>
+                    <hr class="w3-clear mt-0">
+                    <div class="w3-row-padding" style="margin:0 -16px">
+                        <div class="center-block text-center">
+                            <img src="{{p.image.url}}" style="width:220px; height: 220px;" alt="image"
+                                class="w3-margin-bottom">
+                        </div>
+                        <p>{{p.desc|truncatechars:100}}</p>
+                    </div>
+                    <div class="text-center">
+                    <a type="button" class="w3-button w3-blue w3-margin-bottom rounded-lg text-decoration-none" href="/manage_project/{{p.id}}" class="text-decoration-none text-light">Manage</a>
+
+                    <!-- <button type="button" class="w3-button w3-black w3-margin-bottom rounded-lg" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Delete</button> -->
+                    </div>    
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- End Middle Column -->
+            <!-- Right Column -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- <div class="w3-col m2">
+                <div class="w3-card w3-round w3-white w3-center">
+                    <div class="w3-container">
+
+                        <p class="mt-2"><strong>Other Projects:</strong></p>
+
+                    </div>
+                </div>
+                <br>
+                {% for pr in rprojs %}
+                <div class="w3-card w3-round w3-white w3-center">
+                    <div class="w3-container my-2">
+                        <img src="{{pr.image.url}}" alt="Avatar" style="width:70%" class="mt-2">
+                        <hr>
+                        <span class="h5 mb-1"><a href="/project/{{request.user}}/{{pr.pname}}"
+                                class="badge badge-dark text-wrap mb-2 text-decoration-none">{{pr.pname}}</a></span>
+                        <div class="w3-row w3-opacity">
+                            <div class="text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+               
+            </div> -->
+
+            <!-- End Grid -->
+        </div>
+
+        <!-- End Page Container -->
+    </div>
+    <br>
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+
+                </a>
+                <span class="text-muted">Developed by 2GI21CS188</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a href="https://www.instagram.com/_sambhram_13/"> <i class="fa-brands fa-instagram fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://www.linkedin.com/in/sambhram-mathad-4ab916266/"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://github.com/SambhramMathad13"> <i class="fa-brands fa-github fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://gmail.com/sambhrammathad@gmail.com"> <i class="fa-regular fa-envelope fa-lg"></i></a>
+                </li>
+                
+            </ul>
+        </footer>
+    </div>
+
+</body>
+
+</html>

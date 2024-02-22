@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>View</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Open Sans", sans-serif
+        }
+
+        .horizontal-scrollable>.w3-row {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .horizontal-scrollable>.w3-row>.w3-col {
+            display: inline-block;
+            float: none;
+        }
+
+        .w3-col {
+            white-space: normal;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        ::-webkit-scrollbar {
+            width: 20px;
+        }
+
+
+        ::-webkit-scrollbar-thumb {
+            /* background: #1d2025; */
+            background: rgb(218, 218, 218);
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            /* background:#22252a; */
+            background: #c1c1c1;
+        }
+
+        .less {
+            font-size: x-small;
+
+        }
+    </style>
+</head>
+
+
+<!-- <body  style="background-color:#020409"> -->
+<body class="w3-theme-l5">
+
+
+
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark  p-3" style="background-color:#171b21;"> -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+        <a class="navbar-brand" href="/home/{{request.user}}">ProjectVerse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home/{{request.user}}">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user_projects/{{request.user}}">Your Projects<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/add/{{request.user}}">Add<span class="sr-only">(current)</span></a>
+                </li>
+
+
+                <div class="dropdown ml-3">
+                    <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{request.user}}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                        <a class="dropdown-item" href="/change_password">Change password</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </div>
+
+            </ul>
+
+
+
+            <form class="form-inline" action="/search/" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="@Username , #projects"
+                    aria-label="Search" required>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+        </div>
+    </nav>
+
+
+
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{ message}}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    <header class="text-center mt-3">
+        <h3 class="display-5 text-dark "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>Best-liked <i
+                class="fa-solid fa-play fa-2xs ms-2"></i></h3>
+        <!-- <h3 class="display-5 text-light "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>Best-liked <i
+                class="fa-solid fa-play fa-2xs ms-2"></i></h3> -->
+    </header>
+
+
+    <div class="w3-container w3-content horizontal-scrollable" style="max-width:1400px;margin-top:45px">
+
+        <div class="w3-row hide">
+
+            {% for p in projs %}
+            <div class="w3-col m3">
+                <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+                <!-- <div class="w3-container w3-card w3-round w3-margin border border-light text-light" style="background-color:#171b21;"><br> -->
+               
+
+
+                    <h3>{{p.pname}} <span class="less w3-opacity">by {{p.stud}}</span></h3>
+                    <div>
+                        <p class=" w3-opacity">{{p.date}}</p>
+                    </div>
+                    <hr class="w3-clear mt-0">
+                    <div class="w3-row-padding" style="margin:0 -16px">
+                        <div class="center-block text-center">
+                            <img src="{{p.image.url}}" style="width:220px; height: 220px;" alt="image"
+                                class="w3-margin-bottom">
+                        </div>
+                        <p>{{p.desc|truncatechars:100}}</p>
+                    </div>
+                    <div class="text-center">
+                        <span class="float-start w3-opacity">
+                            <i class="fa-regular fa-star mt-3 me-1"></i>{{p.like_count}}</span>
+                        <a class="btn btn-dark mb-2 me-5" type="submit" href="/project/{{request.user}}/{{p.pname}}"
+                            class=" text-dark text-decoration-none">View</a>
+                        <!-- <a class="btn btn-outline-light mb-2 me-5" type="submit" href="/project/{{request.user}}/{{p.pname}}"
+                            class=" text-light text-decoration-none">View</a> -->
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+        <header class="text-center mt-5">
+            <h3 class="display-5 text-dark "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>New inclusion <i
+                    class="fa-solid fa-play fa-2xs ms-2"></i></h3>
+            <!-- <h3 class="display-5 text-light "><i class="fa-solid fa-play fa-rotate-180 fa-2xs me-3"></i>New inclusion <i
+                    class="fa-solid fa-play fa-2xs ms-2"></i></h3> -->
+        </header>
+
+        <div class="w3-row hide mt-5">
+
+            {% for p in na %}
+            <div class="w3-col m3">
+                <div class="w3-container w3-card  w3-round w3-margin text-dark border border-light w3-white"><br>
+                <!-- <div class="w3-container w3-card  w3-round w3-margin text-light border border-light" style="background-color:#171b21;"><br> -->
+
+
+                    <h3>{{p.pname}} <span class="less w3-opacity">by {{p.stud}}</span></h3>
+                    <div>
+                        <p class=" w3-opacity">{{p.date}}</p>
+                    </div>
+                    <hr class="w3-clear mt-0">
+                    <div class="w3-row-padding" style="margin:0 -16px">
+                        <div class="center-block text-center">
+                            <img src="{{p.image.url}}" style="width:220px; height: 220px;" alt="image"
+                                class="w3-margin-bottom">
+                        </div>
+                        <p>{{p.desc|truncatechars:100}}</p>
+                    </div>
+                    <div class="text-center">
+                        <span class="float-start w3-opacity">
+                            <i class="fa-regular fa-star mt-3 me-1"></i>{{p.like_count}}</span>
+                        <a class="btn btn-dark mb-2 me-5" type="submit" href="/project/{{request.user}}/{{p.pname}}"
+                            class=" text-light text-decoration-none">View</a>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+    <br>
+
+
+
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+
+                </a>
+                <span class="text-dark">Developed by 2GI21CS188</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a href="https://www.instagram.com/_sambhram_13/"> <i class="fa-brands fa-instagram fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://www.linkedin.com/in/sambhram-mathad-4ab916266/"><i class="fa-brands fa-linkedin fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://github.com/SambhramMathad13"> <i class="fa-brands fa-github fa-lg"></i></a>
+                </li>
+                <li class="ms-3"><a href="https://gmail.com/sambhrammathad@gmail.com"> <i class="fa-regular fa-envelope fa-lg"></i></a>
+                </li>
+                
+            </ul>
+        </footer>
+    </div>
+</body>
+
+</html>

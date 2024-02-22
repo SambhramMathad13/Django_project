@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Search</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .h:hover {
+            background: #8b8b8b;
+        }
+
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Open Sans", sans-serif
+        }
+    </style>
+</head>
+
+<body class="w3-theme-l5">
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+        <a class="navbar-brand" href="/home/{{request.user}}">ProjectCart</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/home/{{request.user}}">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user_projects/{{request.user}}">Your Projects<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/add/{{request.user}}">Add<span class="sr-only">(current)</span></a>
+                </li>
+
+
+                <div class="dropdown ml-3">
+                    <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{request.user}}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </div>
+
+            </ul>
+
+
+
+            <form class="form-inline" action="/search/" method="post">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="@Username , #projects"
+                    aria-label="Search" required>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+        </div>
+    </nav>
+
+
+
+
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{ message}}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- <div class="container py-5"> -->
+    <header class="text-center mt-3">
+        {% if projs|length == 0 and not profile %}
+        <h1 class="display-4 font-weight-semi-bold">No search result 🙃</h1>
+        {% else %}
+        <h2 class="display-4 font-weight-semi-bold">Search result for: {{s}}</h2>
+        {% endif %}
+    </header>
+
+
+    <div class="w3-container w3-content" style="max-width:1400px;margin-top:45px">
+        <!-- The Grid -->
+        <div class="w3-row">
+            {% if profile %}
+            
+            <div class="w3-card w3-round w3-white mb-3">
+                <div class="w3-container">
+                    <p class="w3-center mt-3"><img src="{{profile.photo.url}}" alt="Avatar" class="w3-circle w3-border"
+                            style="width:75px; height: 75px;"></p>
+                    <h4 class="w3-center h3">{{profile.s}}</h4>
+                    <hr>
+                    <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-dark"></i>{{profile.bio}}</p>
+                    <p><i class="fa-solid fa-graduation-cap w3-margin-right w3-text-dark"></i> {{profile.college}}</p>
+                    <p><i class="fa-regular fa-calendar w3-margin-right w3-text-dark"></i> {{profile.sem}}</p>
+                    <p></i>
+                        <i class="fa-solid fa-link  w3-margin-right"></i>
+
+                        <a href="{{profile.link}}" class="text-decoration-none">{{profile.github}}</a>
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+            <!-- Middle Column -->
+            {% for p in projs %}
+            <div class="w3-col m3">
+                <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+
+
+                    <h3>{{p.pname}}</h3>
+                    <div>
+                        <p class=" w3-opacity">{{p.date}}</p>
+                    </div>
+                    <hr class="w3-clear mt-0">
+                    <div class="w3-row-padding" style="margin:0 -16px">
+                        <div class="center-block text-center">
+                            <img src="{{p.image.url}}" style="width:220px; height: 220px;" alt="image"
+                                class="w3-margin-bottom">
+                        </div>
+                        <p>{{p.desc|truncatechars:100}}</p>
+                    </div>
+                    <div class="text-center">
+
+                        <button class="btn btn-dark mb-2" type="submit"><a href="/project/{{request.user}}/{{p.pname}}"
+                                class=" text-light text-decoration-none">View</a></button>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <br>
+</body>
+
+</html>
