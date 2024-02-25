@@ -81,7 +81,7 @@
             <form class="form-inline" action="/search/" method="post">
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" name="search" type="search" placeholder="@Username , #projects"
-                    aria-label="Search" required>
+                    aria-label="Search" required  minlength="4" maxlength="15">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
 
@@ -122,10 +122,6 @@
                           <label for="exampleInputPasswor">Abstract</label>
                           <textarea  name="desc" class="form-control" id="exampleInputPasswor" required>{{p.desc}}</textarea>
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="exampleInputd">Domain</label>
-                            <input type="text" name="dom" class="form-control" id="exampleInputd" aria-describedby="emailHelp"value="{{p.domain}}"  required>
-                          </div> -->
                           <div class="form-group">
                             <label for="cars">Domain : </label>
                            

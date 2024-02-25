@@ -129,7 +129,7 @@
             <form class="form-inline" action="/search/" method="post">
                 {% csrf_token %}
                 <input class="form-control mr-sm-2" name="search" type="search" placeholder="@Username , #projects"
-                    aria-label="Search" required>
+                    aria-label="Search" required  minlength="4" maxlength="15">
                 <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
 
@@ -208,29 +208,6 @@
 
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <!-- Middle Column -->
             {% for p in projs %}
             <div class="w3-col m3">
@@ -259,58 +236,6 @@
             </div>
             {% endfor %}
 
-            <!-- End Middle Column -->
-            <!-- Right Column -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <!-- <div class="w3-col m2">
-                <div class="w3-card w3-round w3-white w3-center">
-                    <div class="w3-container">
-
-                        <p class="mt-2"><strong>Other Projects:</strong></p>
-
-                    </div>
-                </div>
-                <br>
-                {% for pr in rprojs %}
-                <div class="w3-card w3-round w3-white w3-center">
-                    <div class="w3-container my-2">
-                        <img src="{{pr.image.url}}" alt="Avatar" style="width:70%" class="mt-2">
-                        <hr>
-                        <span class="h5 mb-1"><a href="/project/{{request.user}}/{{pr.pname}}"
-                                class="badge badge-dark text-wrap mb-2 text-decoration-none">{{pr.pname}}</a></span>
-                        <div class="w3-row w3-opacity">
-                            <div class="text-center">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-
-
-               
-            </div> -->
-
-            <!-- End Grid -->
         </div>
 
         <!-- End Page Container -->

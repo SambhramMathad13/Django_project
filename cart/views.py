@@ -12,6 +12,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import get_object_or_404
 from cloudinary import uploader
 from cloudinary.uploader import upload, destroy
+from django.db.models import Q
 
 
 def home(request,n): 
@@ -141,42 +142,40 @@ def add(request, n):
             return render(request, 'add.html')
     else:
         return redirect('/')
-
-
+    
 
 def search(request):
-    if request.user.is_authenticated:    
-        if request.method =='POST':
-            s=request.POST.get('search')
-            pr={'s':s}
-            if len(s)<25:
-                c=s[0:1]
-                n=s[1:]
-                if c == '@':
-                    profile=full_user.objects.none()
-                    pp=full_user.objects.filter(s__icontains=n)
-                    if pp.count()!=0:
-                        prof=pp[0].s
-                        profile=pp[0]
-                        p=projects.objects.filter(stud__icontains=prof)   
-                    else:
-                        p=projects.objects.none()
-                elif c=='#':
-                    p=projects.objects.filter(pname__icontains=n)
-                    profile=full_user.objects.none()
-                else:
-                    profile=full_user.objects.none()
-                    p1=projects.objects.filter(desc__icontains=s)
-                    p2=projects.objects.filter(stack__icontains=s)
-                    p3=projects.objects.filter(domain__icontains=s)
-                    p=p1.union(p2,p3)       
-            else:
-                p=projects.objects.none()
-        pr['projs']=p                              
-        pr['profile']=profile                                  
-        return render(request,'search.html',pr)
-    else:
-        return redirect('/') 
+    if not request.user.is_authenticated:
+        return redirect('/')
+    
+    if request.method != 'POST':
+        return render(request, 'search.html')
+    
+    s = request.POST.get('search', '')
+    pr = {'s': s}
+    profile = full_user.objects.none()
+    p = projects.objects.none()
+
+    if len(s) < 25:
+        c, n = s[0], s[1:]
+        if c == '@':
+            pp = full_user.objects.filter(s__icontains=n)
+            if pp.exists():
+                profile = pp.first()
+                p = projects.objects.filter(stud__icontains=profile.s)
+        elif c == '#':
+            p = projects.objects.filter(pname__icontains=n)
+        else:
+            p = projects.objects.filter(
+                Q(desc__icontains=s) |
+                Q(stack__icontains=s) |
+                Q(domain__icontains=s)
+            )
+
+    pr['projs'] = p
+    pr['profile'] = profile
+    return render(request, 'search.html', pr)
+
 
 def project(request,n,p):
     if request.user.is_authenticated:    
@@ -375,12 +374,6 @@ def error_404(request, exception):
 def error_500(request, exception):
     return render(request, '404.html', status=404)
 
-
-
-
-
-
-# ?? please add if request.user to all the defs 
 
     
                    
