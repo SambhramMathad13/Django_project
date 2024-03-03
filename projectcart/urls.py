@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('git_PV2024/', admin.site.urls),
     path('email',email,name="email"),
     path('',signin_page,name="signin"),
     path('login/',login_page,name="login"),
@@ -35,6 +35,3 @@ urlpatterns = [
     path('change_password/',change_password,name="change_password"),
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL,document_root=settings.MEDIA_ROOT)
-
-
-# handler404 = 'pages.views.error_404' 
