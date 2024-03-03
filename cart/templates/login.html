@@ -1,10 +1,13 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static '/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/favicon-16x16.png' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
@@ -18,7 +21,7 @@
     <nav class="navbar navbar-dark bg-dark justify-content-between">
       <a class="navbar-brand" href="/">ProjectCart</a>
 
-        <button class="btn btn-primary my-2 my-sm-0 p-0" type="button"><a class="nav-link text-white" href="/">Signin<span class="sr-only">(current)</span></a></button>
+        <button class="btn btn-primary my-2 my-sm-0 p-0" type="button"><a class="nav-link text-white" href="/">Signup<span class="sr-only">(current)</span></a></button>
       
     </nav>
 
@@ -70,11 +73,12 @@
                           <label for="exampleInputPassword1">Password</label>
                           <input type="password" name="pass" class="form-control" id="exampleInputPassword1" required minlength="1" maxlength="10">
                         </div>
-                        <p>Don't have an account ? <a href="/">Signin </a><a href="{% url 'password_reset' %}"> Forget Password?</a></p>
+                        <p><a href="{% url 'password_reset' %}"> Forget Password?</a></p>
 
                         <button type="submit" class="btn btn-primary">Login</button>
                       </form> 
                     </div>
+                    <p>Don't have an account ? <a href="/">Register</a></p>
                 </div>
             </div>
         </div>
