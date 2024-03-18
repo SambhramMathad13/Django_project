@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('git_PV2024/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('email',email,name="email"),
     path('',signin_page,name="signin"),
     path('login/',login_page,name="login"),
