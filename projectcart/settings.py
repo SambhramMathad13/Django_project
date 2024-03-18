@@ -2,15 +2,13 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
-# load_dotenv()
+load_dotenv()
 
-SECRET_KEY ='django-insecure-eyeo+3p=iae6y36n7kvsi4_7mfh^hl#+8op*yu5)j9*6b^pig&'
-# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -109,12 +107,9 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dhrpf1hu5',
-    'API_KEY': '128496298218116',
-    'API_SECRET': 'NwTlZwL3C_u3EAZmK5VZUl2isL8'
-    # 'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    # 'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    # 'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
 }
 
 # Default primary key field type
@@ -127,10 +122,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER ='sambhrammathad@gmail.com'
-EMAIL_HOST_PASSWORD = 'rbso ccvn jkns tayj'
-# EMAIL_HOST_USER =os.environ.get('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER =os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
 
