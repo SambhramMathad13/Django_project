@@ -21,4 +21,12 @@
 
 **Media storage:** Cloudinary
 
+## LINK
+
+https://projectverse.pythonanywhere.com
+
+**Username:** Sambhram_Mathad
+
+**Password:** sambhram@1
+
 
